@@ -1,7 +1,6 @@
 package br.edu.unidavi.trabalhofinalapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Lists;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,26 +11,23 @@ import org.springframework.hateoas.core.Relation;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by Davi on 30/11/18.
+ * Created by Davi on 11/12/18.
  */
 @Entity
-@Table(name = "tb_cliente")
+@Table(name = "tb_item")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Relation(value = "cliente", collectionRelation = "clientes")
+@Relation(value = "item", collectionRelation = "itens")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(of = {"id", "cpf", "nome", "dataNascimento"})
-public class Cliente implements Serializable, Persistable<Long>, Identifiable<Long> {
+@ToString(of = {"id", "quantidade", "total"})
+public class Item implements Serializable, Persistable<Long>, Identifiable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,28 +35,21 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String cpf;
-
     @NotNull
-    @Column(nullable = false, length = 250)
-    @Size(min = 1, max = 250)
-    private String nome;
+    @Column(nullable = false)
+    private Integer quantidade;
 
     @NotNull
     @Column(nullable = false)
-    @Size(min = 1, max = 250)
-    private Date dataNascimento;
-
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "user")
-    private Endereco endereco;
+    private double total;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos = Lists.newLinkedList();
+    @OneToOne(optional = false)
+    private Produto produto;
+
+    @JsonIgnore
+    @OneToOne(optional = false)
+    private Pedido pedido;
 
     @JsonIgnore
     @CreatedDate
@@ -71,12 +60,11 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
     @LastModifiedDate
     private LocalDateTime updatedTime;
 
-    public Cliente(Long id, String cpf, String nome, Date dataNascimento, Endereco endereco) {
+    public Item(Long id, Integer quantidade, double total, Produto produto) {
         this.id = id;
-        this.cpf = cpf;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
+        this.quantidade = quantidade;
+        this.total = total;
+        this.produto = produto;
     }
 
     @Override
@@ -90,12 +78,12 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
         return Objects.isNull(id);
     }
 
-    public static Cliente of() {
-        return new Cliente();
+    public static Item of() {
+        return new Item();
     }
 
-    public static Cliente of(Long id, String cpf, String nome, Date dataNascimento, Endereco endereco) {
-        return new Cliente(id, cpf, nome, dataNascimento, endereco);
+    public static Item of(Long id, Integer quantidade, double total, Produto produto) {
+        return new Item(id, quantidade, total, produto);
     }
 
 }

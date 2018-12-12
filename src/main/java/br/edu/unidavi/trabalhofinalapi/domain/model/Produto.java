@@ -1,7 +1,6 @@
 package br.edu.unidavi.trabalhofinalapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Lists;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,23 +14,21 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by Davi on 30/11/18.
+ * Created by Davi on 11/12/18.
  */
 @Entity
-@Table(name = "tb_cliente")
+@Table(name = "tb_produto")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Relation(value = "cliente", collectionRelation = "clientes")
+@Relation(value = "produto", collectionRelation = "produtos")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(of = {"id", "cpf", "nome", "dataNascimento"})
-public class Cliente implements Serializable, Persistable<Long>, Identifiable<Long> {
+@ToString(of = {"id", "nome", "descricao", "marca", "valor"})
+public class Produto implements Serializable, Persistable<Long>, Identifiable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,28 +36,24 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String cpf;
-
     @NotNull
     @Column(nullable = false, length = 250)
     @Size(min = 1, max = 250)
     private String nome;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
+    @Size(min = 1, max = 500)
+    private String descricao;
+
+    @NotNull
+    @Column(nullable = false, length = 250)
     @Size(min = 1, max = 250)
-    private Date dataNascimento;
+    private String marca;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "user")
-    private Endereco endereco;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos = Lists.newLinkedList();
+    @NotNull
+    @Column(nullable = false)
+    private double valor;
 
     @JsonIgnore
     @CreatedDate
@@ -71,12 +64,12 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
     @LastModifiedDate
     private LocalDateTime updatedTime;
 
-    public Cliente(Long id, String cpf, String nome, Date dataNascimento, Endereco endereco) {
+    public Produto(Long id, String nome, String descricao, String marca, double valor) {
         this.id = id;
-        this.cpf = cpf;
         this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
+        this.descricao = descricao;
+        this.marca = marca;
+        this.valor = valor;
     }
 
     @Override
@@ -90,12 +83,12 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
         return Objects.isNull(id);
     }
 
-    public static Cliente of() {
-        return new Cliente();
+    public static Produto of() {
+        return new Produto();
     }
 
-    public static Cliente of(Long id, String cpf, String nome, Date dataNascimento, Endereco endereco) {
-        return new Cliente(id, cpf, nome, dataNascimento, endereco);
+    public static Produto of(Long id, String nome, String descricao, String marca, double valor) {
+        return new Produto(id, nome, descricao, marca, valor);
     }
 
 }
