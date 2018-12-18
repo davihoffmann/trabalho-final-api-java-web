@@ -88,6 +88,16 @@
             <artifactId>spring-data-rest-hal-browser</artifactId>
         </dependency>
 
+        <!-- Secutiry -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- Test and Documentation dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

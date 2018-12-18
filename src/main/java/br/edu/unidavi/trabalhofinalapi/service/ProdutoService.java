@@ -45,16 +45,16 @@ public class ProdutoService {
         repository.delete(produto);
     }
 
-    public Page<Produto> findByNomeContaining(String nome) {
-        return repository.findByNomeContaining(nome);
+    public Page<Produto> findByNomeContaining(String nome, Pageable pageable) {
+        return repository.findByNomeContaining(nome, pageable);
     }
 
-    public Page<Produto> findByMarcaContaining(String marca) {
-        return repository.findByMarcaContaining(marca);
+    public Page<Produto> findByMarcaContaining(String marca, Pageable pageable) {
+        return repository.findByMarcaContaining(marca, pageable);
     }
 
-    public Page<Produto> findByDataCriacao(Date data) {
-        return repository.findByDataCriacao(data);
+    public Page<Produto> findByDataCriacao(Date data, Pageable pageable) {
+        return repository.findByDataCriacao(data, pageable);
     }
 
 }

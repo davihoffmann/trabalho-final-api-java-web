@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.net.URI;
+import java.util.Date;
 import java.util.function.Consumer;
 
 import static br.edu.unidavi.trabalhofinalapi.domain.exception.EntityAreadyExistException.entityAreadyExist;
@@ -64,14 +65,20 @@ public class ProdutoRestController {
 
     @RequestMapping(method = GET, value = "/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<Resources<Resource<Produto>>> findByNomeContaining(@PathVariable String nome) {
-        return ok(pagedResourcesAssembler.toResource(service.findByNomeContaining(nome), assembler));
+    public ResponseEntity<Resources<Resource<Produto>>> findByNomeContaining(@PathVariable String nome, Pageable pageable) {
+        return ok(pagedResourcesAssembler.toResource(service.findByNomeContaining(nome, pageable), assembler));
     }
 
-    @RequestMapping(method = GET, value = "/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = GET, value = "/{data}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<Resources<Resource<Produto>>> findByDataCriacao(@PathVariable String nome) {
-        return ok(pagedResourcesAssembler.toResource(service.findByNomeContaining(nome), assembler));
+    public ResponseEntity<Resources<Resource<Produto>>> findByDataCriacao(@PathVariable Date data, Pageable pageable) {
+        return ok(pagedResourcesAssembler.toResource(service.findByDataCriacao(data, pageable), assembler));
+    }
+
+    @RequestMapping(method = GET, value = "/{marca}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<Resources<Resource<Produto>>> findByMarcaContaining(@PathVariable String marca, Pageable pageable) {
+        return ok(pagedResourcesAssembler.toResource(service.findByMarcaContaining(marca, pageable), assembler));
     }
 
     @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE)
