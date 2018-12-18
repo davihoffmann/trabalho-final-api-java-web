@@ -3,6 +3,8 @@ package br.edu.unidavi.trabalhofinalapi.service;
 import br.edu.unidavi.trabalhofinalapi.domain.model.Item;
 import br.edu.unidavi.trabalhofinalapi.domain.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,10 @@ public class ItemService {
 
     public List<Item> findAll() {
         return repository.findAll();
+    }
+
+    public Page<Item> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Optional<Item> findOne(Long id) {

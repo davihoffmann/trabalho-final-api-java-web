@@ -104,15 +104,19 @@ public class ClienteRestController {
 
         @NotNull
         @Size(min = 1, max = 250)
-        private String nome;
+        private String email;
 
         @NotNull
         @Size(min = 1, max = 250)
+        private String nome;
+
+        @NotNull
         private Date dataNascimento;
 
         @Override
         public void accept(Cliente entity) {
             entity.setCpf(cpf);
+            entity.setEmail(email);
             entity.setNome(nome);
             entity.setDataNascimento(dataNascimento);
         }
@@ -131,6 +135,10 @@ public class ClienteRestController {
 
         @NotNull
         @Size(min = 1, max = 250)
+        private String email;
+
+        @NotNull
+        @Size(min = 1, max = 250)
         private Date dataNascimento;
 
         @Override
@@ -143,6 +151,9 @@ public class ClienteRestController {
             }
             if (nonNull(dataNascimento)) {
                 cliente.setDataNascimento(dataNascimento);
+            }
+            if(nonNull(email)) {
+                cliente.setEmail(email);
             }
         }
     }

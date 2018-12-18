@@ -193,6 +193,9 @@ public class EnderecoRestController {
             resource.add(ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(EnderecoRestController.class)
                     .edit(endereco.getId(), null, null)).withRel("edit"));
 
+            resource.add(ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(ClienteRestController.class)
+                    .findOne(endereco.getCliente().getId())).withRel("cliente"));
+
             return resource;
         }
 

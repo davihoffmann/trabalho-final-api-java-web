@@ -21,10 +21,10 @@ import java.util.Objects;
  * Created by Davi on 11/12/18.
  */
 @Entity
-@Table(name = "tb_produto")
+@Table(name = "tb_pedido")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Relation(value = "produto", collectionRelation = "produtos")
+@Relation(value = "pedido", collectionRelation = "pedidos")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")

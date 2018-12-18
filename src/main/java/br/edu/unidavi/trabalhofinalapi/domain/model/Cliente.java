@@ -30,7 +30,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(of = {"id", "cpf", "nome", "dataNascimento"})
+@ToString(of = {"id", "cpf", "nome", "email", "dataNascimento"})
 public class Cliente implements Serializable, Persistable<Long>, Identifiable<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -49,13 +49,15 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
     private String nome;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 250)
     @Size(min = 1, max = 250)
+    private String email;
+
+    @NotNull
+    @Column(nullable = false)
     private Date dataNascimento;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "cliente")
     private Endereco endereco;
 
     @JsonIgnore
@@ -71,12 +73,28 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
     @LastModifiedDate
     private LocalDateTime updatedTime;
 
-    public Cliente(Long id, String cpf, String nome, Date dataNascimento, Endereco endereco) {
+    public Cliente(Long id, String cpf, String nome, String email, Date dataNascimento, Endereco endereco) {
         this.id = id;
         this.cpf = cpf;
         this.nome = nome;
+        this.email = email;
         this.dataNascimento = dataNascimento;
         this.endereco = endereco;
+    }
+
+    public Cliente(String cpf, String nome, String email, Date dataNascimento) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Cliente(Long id, String cpf, String nome, String email, Date dataNascimento) {
+        this.id = id;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
     }
 
     @Override
@@ -94,8 +112,16 @@ public class Cliente implements Serializable, Persistable<Long>, Identifiable<Lo
         return new Cliente();
     }
 
-    public static Cliente of(Long id, String cpf, String nome, Date dataNascimento, Endereco endereco) {
-        return new Cliente(id, cpf, nome, dataNascimento, endereco);
+    public static Cliente of(Long id, String cpf, String nome, String email, Date dataNascimento, Endereco endereco) {
+        return new Cliente(id, cpf, nome, email, dataNascimento, endereco);
+    }
+
+    public static Cliente of(Long id, String cpf, String nome, String email, Date dataNascimento) {
+        return new Cliente(id, cpf, nome, email, dataNascimento);
+    }
+
+    public static Cliente of(String cpf, String nome, String email, Date dataNascimento) {
+        return new Cliente(cpf, nome, email, dataNascimento);
     }
 
 }

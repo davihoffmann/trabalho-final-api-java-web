@@ -3,6 +3,8 @@ package br.edu.unidavi.trabalhofinalapi.service;
 import br.edu.unidavi.trabalhofinalapi.domain.model.Pedido;
 import br.edu.unidavi.trabalhofinalapi.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,10 @@ public class PedidoService {
 
     public List<Pedido> findAll() {
         return repository.findAll();
+    }
+
+    public Page<Pedido> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Optional<Pedido> findOne(Long id) {

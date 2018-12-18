@@ -62,6 +62,18 @@ public class ProdutoRestController {
         return ok(assembler.toResource(produto));
     }
 
+    @RequestMapping(method = GET, value = "/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<Resources<Resource<Produto>>> findByNomeContaining(@PathVariable String nome) {
+        return ok(pagedResourcesAssembler.toResource(service.findByNomeContaining(nome), assembler));
+    }
+
+    @RequestMapping(method = GET, value = "/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<Resources<Resource<Produto>>> findByDataCriacao(@PathVariable String nome) {
+        return ok(pagedResourcesAssembler.toResource(service.findByNomeContaining(nome), assembler));
+    }
+
     @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<Resource<Produto>> gravar(@Valid @RequestBody ProdutoPostInput input) {

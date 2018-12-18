@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +45,16 @@ public class ProdutoService {
         repository.delete(produto);
     }
 
-//    public Optional<Cliente> findByCnpj(String cnpj) {
-//        return Optional.ofNullable(repository.findByCnpj(cnpj));
-//    }
+    public Page<Produto> findByNomeContaining(String nome) {
+        return repository.findByNomeContaining(nome);
+    }
+
+    public Page<Produto> findByMarcaContaining(String marca) {
+        return repository.findByMarcaContaining(marca);
+    }
+
+    public Page<Produto> findByDataCriacao(Date data) {
+        return repository.findByDataCriacao(data);
+    }
 
 }
